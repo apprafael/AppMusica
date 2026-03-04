@@ -16,15 +16,10 @@ struct RegistrarView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.pink, Color.blue, Color.green]), startPoint: .top, endPoint: .trailing)
-                .ignoresSafeArea()
+            CorDeFundo()
             
             VStack {
-                TextField("Usuário", text: $usuario)
-                    .padding()
-                
-                SecureField("Senha", text: $senha)
-                    .padding()
+                FormularioUsuarioSenha(usuario: $usuario, senha: $senha)
                 
                 Button("Registrar") {
                     modelContext.insert(Usuario(usuario: usuario, senha: senha))

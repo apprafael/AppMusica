@@ -24,26 +24,24 @@ struct LoginView: View {
                 HomeView()
             }
             else {
-                
                 ZStack {
-                    LinearGradient(gradient: Gradient(colors: [Color.pink, Color.blue, Color.green]), startPoint: .top, endPoint: .trailing)
-                        .ignoresSafeArea()
+                    CorDeFundo()
                     
                     VStack {
-                        
-                        //                    Text(usuarios.first?.usuario ?? "")
-                        //Text("Foi encontrado? \(usuarioFoiEncontrado)")
-                        Image("music_image")
+
+                        Image(systemName: "music.note")
                             .resizable()
                             .frame(width: 100, height: 100)
+                            .background(
+                                Rectangle()
+                                    .foregroundStyle(.white)
+                                    .frame(width: 120, height: 120)
+                                    .cornerRadius(10)
+                            )
                         
-                        TextField("Usuário", text: $usuario)
-                            .padding()
+                        FormularioUsuarioSenha(usuario: $usuario, senha: $senha)
                         
-                        SecureField("Senha", text: $senha)
-                            .padding()
-                        
-                        Button("Entrar") {
+                        Button {
                             usuarioFoiEncontrado = usuarios.contains { usuario in
                                 return usuario.usuario == self.usuario && usuario.senha == self.senha
                             }
@@ -53,9 +51,13 @@ struct LoginView: View {
                             } else {
                                 mostrarErro = true
                             }
-                            
+                        } label: {
+                            Text("Entrar")
+                                .frame(maxWidth: .infinity)
                         }
-                        .buttonStyle(.glassProminent)
+                        .buttonStyle(.borderedProminent)
+                        .padding(.horizontal)
+    
                         
                         HStack {
                             Rectangle()
@@ -71,7 +73,7 @@ struct LoginView: View {
                         NavigationLink("Registrar") {
                             RegistrarView()
                         }
-                        .buttonStyle(.glass)
+                        .buttonStyle(.plain)
                     }
                 }
                 .alert("Erro de Autenticação", isPresented: $mostrarErro) {
