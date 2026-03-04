@@ -46,11 +46,7 @@ struct LoginView: View {
                                 return usuario.usuario == self.usuario && usuario.senha == self.senha
                             }
                             
-                            if usuarioFoiEncontrado {
-                                mostrarErro = false
-                            } else {
-                                mostrarErro = true
-                            }
+                            mostrarErro = !usuarioFoiEncontrado
                         } label: {
                             Text("Entrar")
                                 .frame(maxWidth: .infinity)
