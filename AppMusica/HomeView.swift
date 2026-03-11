@@ -7,23 +7,24 @@
 
 import SwiftUI
 import SwiftData
- 
+
 struct HomeView: View {
+    
     var body: some View {
-        TabView {
-            ListaDeMusicasView()
-                .tabItem {
-                    Label("Menu", systemImage: "list.dash")
-                }
-            
-            ListDeMusicasFavoritasView()
-                .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
-                }
+            TabView {
+                ItunesLista()
+                    .tabItem {
+                        Label("Musicas", systemImage: "list.dash")
+                    }
+                
+                ListaDeMusicasFavoritasView()
+                    .tabItem {
+                        Label("Favoritas", systemImage: "heart.fill")
+                    }
+            }
         }
-    }
 }
- 
+
 #Preview {
     HomeView()
 }
