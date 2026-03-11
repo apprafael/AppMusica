@@ -19,18 +19,29 @@ struct Result : Codable {
  
 struct ItunesLista: View {
     @State private var results = [Result] ()
-    @State private var termoDeBusca = ""
+    @State private var termoDeBusca = "eminem"
+
     
     var body: some View {
         NavigationStack {
             List (results, id: \.trackId) { item in
-                VStack(alignment: .leading) {
-                    Text(item.trackName)
-                        .font(.headline)
-                    Text(item.collectionName)
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.trackName)
+                            .font(.headline)
+                        Text(item.collectionName)
+                    }
                     
+                    Spacer()
+                    
+                    Button("") {
+                      // salvar a faixa de música na lista de favoritos
+                    }
+                    .padding()
+                    .background {
+                        Image(systemName: "heart")
+                    }
                 }
-                
             }
             .task {
                 await loadData()
