@@ -6,9 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ListaDeMusicasFavoritasView: View {
+    @Query var musicas: [Musica]
     
+    var body: some View {
+        ListaDeMusicaView(musicas: musicas)
+    }
+}
+
+#Preview {
+    ListaDeMusicasFavoritasView()
+}
+
 //    var resultadosFiltrados: [Result] {
 //        if termoDeBusca.isEmpty {
 //            return results
@@ -19,12 +30,3 @@ struct ListaDeMusicasFavoritasView: View {
 //            }
 //        }
 //    }
-    
-    var body: some View {
-        Text("Lista de musicas favoritas")
-    }
-}
-
-#Preview {
-    ListaDeMusicasFavoritasView()
-}
