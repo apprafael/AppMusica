@@ -14,6 +14,7 @@ struct ListaDeMusicaView: View {
     var musicas: [Musica]
     
     @Query var musicasDB: [Musica]
+    @State var textoBusca: String = ""
     
     var body: some View {
         List (musicas, id: \.trackId) { musica in

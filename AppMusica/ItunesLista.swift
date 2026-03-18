@@ -5,6 +5,7 @@
 //  Created by Rafael Almeida on 04/03/26.
 //
 
+import Combine
 import SwiftUI
 import SwiftData
  
@@ -48,30 +49,51 @@ class Musica : Codable {
         self.collectionName = collectionName
     }
 }
+
+class ItunesListaViewModel: ObservableObject {
+    @Published var busca = ""
+    @Published var debouncedBusca = ""
+    
+    init() {
+        $debouncedBusca
+            .debounce(for: .seconds(0.75), scheduler: RunLoop.main)
+            .assign(to: &$busca)
+    }
+}
  
 struct ItunesLista: View {
-    @State private var results = [Musica] ()
-    @State private var termoDeBusca = "eminem"
+    @StateObject var viewModel = ItunesListaViewModel()
+    
+    @State private var results = [Musica]()
+    @State private var textoBuscaDaTela = ""
+    @State private var textoBusca = ""
         
     var body: some View {
-        NavigationStack {
-            ListaDeMusicaView(musicas: results)
-                .task {
-                    await loadData()
-                }
-        }
-        .searchable(text: $termoDeBusca)
-        .onChange(of: termoDeBusca) { oldValue, newValue in
-            Task {
+        ListaDeMusicaView(musicas: results)
+            .task {
                 await loadData()
             }
-        }
+            .safeAreaInset(edge: .bottom) {
+                TextField("Busca", text: $viewModel.debouncedBusca)
+                    .background(
+                        Rectangle()
+                            .foregroundStyle(.white)
+                            .cornerRadius(10)
+                    )
+                    .padding()
+                    .shadow(radius: 5)
+            }
+            .onChange(of: viewModel.busca) { _, _ in
+                Task {
+                    await loadData()
+                }
+            }
     }
     
     
     func loadData() async {
-        guard let url = URL(string: "https://itunes.apple.com/search?term=\(termoDeBusca)&entity=song") else {
-            print (" Inavalid Url")
+        guard let url = URL(string: "https://itunes.apple.com/search?term=\(viewModel.busca)&entity=song") else {
+            print ("Inavalid Url")
             return
         }
         
